@@ -4,7 +4,11 @@ namespace :facebooker do
 
   desc "Create a basic facebooker.yml configuration file"
   task :setup => :environment do   
-    facebook_config = File.join(RAILS_ROOT,"config","facebooker.yml")
+    if File.exists?("#{RAILS_ROOT}/config/facebooker_local.yml")
+      facebook_config = "#{RAILS_ROOT}/config/facebooker_local.yml"
+    else
+      facebook_config = "#{RAILS_ROOT}/config/facebooker.yml"
+    end
     unless File.exist?(facebook_config)
       facebooker_root = File.expand_path(File.join(File.dirname(__FILE__),"..",".."))
       facebook_config_tpl = File.join(facebooker_root,"generators","facebook","templates","config","facebooker.yml")
